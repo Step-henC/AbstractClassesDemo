@@ -8,6 +8,40 @@ namespace ConsoleUI
 {
     class Program
     {
+        public abstract class Vehicle
+        {
+            public int Year { get; set; } = 0;
+            public string Make { get; set; } = "Honda";
+            public string Model { get; set; } = "Accord";
+            public abstract void DriveAbstract();
+            public virtual void DriveVirtual()
+            {
+                Console.WriteLine($"This {GetType().Name} is in virtual drive");
+            }
+
+        }
+        public class Car : Vehicle
+        {
+            public bool HasTrunk { get; set; } = true;
+            public override void DriveAbstract()
+            {
+                Console.WriteLine("Hey");
+            }
+
+        }
+        public class Motorcycle : Vehicle
+        {
+            public bool HasSideCar { get; set; } = true;
+            public override void DriveAbstract()
+            {
+                Console.WriteLine("whats up");   
+            }
+            public override void DriveVirtual()
+            {
+                Console.WriteLine("This is a Motorcycle");
+
+            }
+        }
         static void Main(string[] args)
         {
             /*
@@ -32,19 +66,47 @@ namespace ConsoleUI
             */
 
             // Create a list of Vehicle called vehicles
+              List<Vehicle> vehicles = new List<Vehicle>();
+
 
             /*
              * Create 4 instances: 1 Car, 1 Motorcycle, and then 2 instances of type Vehicle (use explicit typing) but use constuctors from derived classes
              * - new it up as one of each derived class
              * Set the properties with object initializer syntax
              */
+            Car nissan = new Car() { Year = 2014, HasTrunk = false, Model = "Juke", Make = "Nissan" };
+            Motorcycle harley = new Motorcycle() { Year = 2033, HasSideCar = false, Model = "Davidson", Make = "Harley" };
+            Vehicle bus = new Car() { Make = "Big", Model = "Bus", Year = 2022, HasTrunk = true };
+            Vehicle golfCart = new Car()
+            {
+                Year = 2022,
+                Make = "Tiger",
+                Model = "Woods",
+                HasTrunk = true,
 
+
+
+            };
             /*
              * Add the 4 vehicles to the list
              * Using a foreach loop iterate over each of the properties
              */
+            vehicles.Add(bus);
+            vehicles.Add(golfCart);
+            vehicles.Add(harley);
+            vehicles.Add(nissan);
+
+            foreach (Vehicle v in vehicles)
+            {
+                Console.WriteLine($"The Year, Make and Model of this {v.GetType().Name} is {v.Year} {v.Make} {v.Model}");
+                v.DriveVirtual();
+                Console.WriteLine("--------------------------");
+            }
 
             // Call each of the drive methods for one car and one motorcycle
+            golfCart.DriveAbstract();
+            harley.DriveAbstract();
+            
 
             #endregion            
             Console.ReadLine();
